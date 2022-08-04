@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use Exception;
+use Laravel\Passport\TokenRepository;
+use Laravel\Passport\RefreshTokenRepository;
 
 class CustomerController extends Controller
 {
@@ -118,5 +120,100 @@ class CustomerController extends Controller
                 // 'message' => "Authentication Failed " . $error
             ]);
         }
+    }
+    public function update(Request $request, $id )
+    {
+        $data = $request->all();
+        $rules = [
+            'name'          => 'required',
+            'address'       => 'required',
+            'phone'         => 'required',
+        ];
+        $this->validate($request, [
+        ]);
+        $customer = Customer::find($id);
+        // if (!$customer) {
+        //     return response()->json([
+        //         'meta' => [
+        //             'code' => 404,
+        //             'status' => 'Failed',
+        //             'message' => 'Customer Not Found'
+        //         ],
+
+        //     ],200);
+        // }
+        if (request()->hasFile('avatar')) {
+            $avatar = request()->file('avatar')->store('avatar', 'public');
+            if (Storage::disk('public')->exists($customer->avatar)) {
+                Storage::disk('public')->delete([$customer->avatar]);
+            }
+            $avatar = request()->file('avatar')->store('avatar', 'public');
+            $data['avatar'] = $avatar;
+            $customer->update($data);
+        }else{
+            unset($data['avatar']);
+        }
+        $validator = Validator::make($data, $rules);
+        if ($validator->fails()) {
+          return response()->json($validator->errors(), 400);
+        }
+        $customer->update($data);
+        return response()->json([
+            'meta' => [
+                'code' => 200,
+                'status' => 'success',
+                'message' => 'Data Customer updated successfully'
+            ],
+            'data' => [
+
+                'customer' => $customer
+            ]
+        ]);
+
+    }
+    public function show($id)
+    {
+        $customer = Customer::findOrFail($id);
+        $user = User::where('id', $customer->user_id)->first();
+        if ($customer) {
+            return response()->json([
+                'meta' => [
+                    'code' => 200,
+                    'status' => 'success',
+                    'message' => 'Detail Customer',
+                ],
+                'data' => [
+                    'user'        => $user,
+                    'customer' => $customer
+                ],
+            ],200);
+        }else {
+            return response()->json([
+                'meta' => [
+                    'code' => 404,
+                    'status' => 'Failed',
+                    'message' => 'Customer Not Found'
+                ],
+            ],200);
+        }
+
+    }
+    public function logout()
+    {
+        $user = request()->user();
+        $access_token = $user->token();
+
+        // logout from only current device
+        $tokenRepository = app(TokenRepository::class);
+        $tokenRepository->revokeAccessToken($access_token->id);
+
+        // use this method to logout from all devices
+        // $refreshTokenRepository = app(RefreshTokenRepository::class);
+        // $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($$access_token->id);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User logout successfully.'
+        ], 200);
     }
 }
