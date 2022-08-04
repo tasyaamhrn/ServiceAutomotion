@@ -26,17 +26,5 @@ class status_seeder extends Seeder
             'id' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
             'name' => 'DITERIMA'
         ]);
-        DB::table('status_bookings')->insert([
-            'id' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
-            'name' => 'DP'
-        ]);
-        DB::table('status_bookings')->insert([
-            'id' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
-            'name' => 'SPR'
-        ]);
-        DB::table('status_bookings')->insert([
-            'id' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
-            'name' => 'SPJB'
-        ]);
     }
 }
