@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\CustomerController;
-
+use App\Http\Controllers\api\DepartmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,19 +21,20 @@ use App\Http\Controllers\api\CustomerController;
 // });
 
 
-Route::post('register/customer',[CustomerController::class,'register']); 
-Route::post('login/customer',[CustomerController::class,'login']); 
- 
-Route::group(['middleware'=>'auth:api'],function(){ 
-    // Route::get('/departemen',[DepartementController::class,'index']); 
-    // Route::post('/departemen',[DepartementController::class,'store']); 
-    // Route::get('/departemen/{id}', [DepartementController::class, 'show']); 
-    // Route::post('/departemen/edit/{departemen}',[DepartementController::class,'update']); 
-    // Route::delete('/departemen/{id}',[DepartementController::class,'destroy']); 
-    // Route::post('/category',[CategoryController::class,'store']); 
-    // Route::get('/category',[CategoryController::class,'index']); 
-    // Route::get('/category/{id}', [CategoryController::class, 'show']); 
-    // Route::post('/category/edit/{category}',[CategoryController::class,'update']); 
-    // Route::delete('/category/{id}',[CategoryController::class,'destroy']); 
- 
+Route::post('register/customer',[CustomerController::class,'register']);
+Route::post('login/customer',[CustomerController::class,'login']);
+
+Route::group(['middleware'=>'auth:api'],function(){
+    Route::get('department', [DepartmentController::class, 'index']);
+    // Route::get('/departemen',[DepartementController::class,'index']);
+    // Route::post('/departemen',[DepartementController::class,'store']);
+    // Route::get('/departemen/{id}', [DepartementController::class, 'show']);
+    // Route::post('/departemen/edit/{departemen}',[DepartementController::class,'update']);
+    // Route::delete('/departemen/{id}',[DepartementController::class,'destroy']);
+    // Route::post('/category',[CategoryController::class,'store']);
+    // Route::get('/category',[CategoryController::class,'index']);
+    // Route::get('/category/{id}', [CategoryController::class, 'show']);
+    // Route::post('/category/edit/{category}',[CategoryController::class,'update']);
+    // Route::delete('/category/{id}',[CategoryController::class,'destroy']);
+
 });
