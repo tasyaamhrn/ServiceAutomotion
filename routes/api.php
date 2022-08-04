@@ -22,7 +22,7 @@ use App\Http\Controllers\api\CustomerController;
 
 
 Route::post('register/customer',[CustomerController::class,'register']); 
-//Route::post('/login',[CustomerController::class,'login']); 
+Route::post('login/customer',[CustomerController::class,'login']); 
  
 Route::group(['middleware'=>'auth:api'],function(){ 
     // Route::get('/departemen',[DepartementController::class,'index']); 

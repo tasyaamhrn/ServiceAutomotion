@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Exception;
 
 class CustomerController extends Controller
 {
@@ -68,6 +69,54 @@ class CustomerController extends Controller
                     'status' => 'Failed',
                     'message' => "Registration Failed"
                 ],],200);
+        }
+    }
+    public function login(Request $request){
+        try {
+            $request->validate([
+                'email' => 'required',
+                'password' => 'required'
+            ]);
+            //Check Credentials
+            $credentials = request(['email', 'password']);
+            if (!Auth::attempt($credentials)) {
+                return response()->json([
+                    'meta' => [
+                        'code' => 500,
+                        'status' => 'Failed',
+                        'message' => "Wrong Email or Password"
+                    ],],200);
+            }
+            // Jika Hash Tidak sesuai maka Error
+            $user = User::where('email', $request->email)->first();
+            $user->tokens()->delete();
+            $token = $user->createToken('tokens')->accessToken;
+            $customer = Customer::where('user_id', $user->id)->first();
+            return response()->json([
+                'meta' => [
+                    'code' => 200,
+                    'status' => 'Success',
+                    'message' => 'Authenticated'
+                ],
+                'data' => [
+                    'accessToken' => $token,
+                    'token_type'  => 'Bearer',
+                    'user'        => $user,
+                    'customer' => $customer
+                ],
+
+                // 'subscribers' => new UserDataResource($user)
+            ]);
+
+        } catch (Exception $error ) {
+            return response()->json([
+                'meta' => [
+                    'code' => 500,
+                    'status' =>'Failed',
+                    'message' => "Authentication Failed " . $error
+                ],
+                // 'message' => "Authentication Failed " . $error
+            ]);
         }
     }
 }
