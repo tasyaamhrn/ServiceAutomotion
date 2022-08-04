@@ -9,9 +9,10 @@ use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Models\status_booking;
 use App\Http\Controllers\Controller;
-use Barryvdh\DomPDF\PDF;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
+//use Barryvdh\DomPDF\PDF;
 use Illuminate\Support\Facades\Auth;
-// use PDF;
+use PDF;
 
 class BookingController extends Controller
 {
