@@ -11,6 +11,8 @@ use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
+use PDF;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -96,5 +98,15 @@ class ComplaintsController extends Controller
         $pathFile = storage_path('app\public/'. $download->tindak_lanjut);
 
         return response()->download($pathFile);
+    }
+    public function exportPDF()
+    {
+        $complaint = Complaint::all();
+        $employee = Employee::all();
+        $department = Department::all();
+        $category = Category::all();
+        $customer = Customer::all();
+        $pdf = PDF::loadView('admin.complaint-pdf',['complaint' => $complaint, 'category' => $category, 'customer' => $customer,'employee' => $employee,'department' => $department])->setPaper('a4', 'landscape');
+        return $pdf->download('cetak-complaint.pdf');
     }
 }

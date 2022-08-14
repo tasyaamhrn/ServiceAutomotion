@@ -15,6 +15,15 @@
   </div>
 </div>
 @endsection
+@if (Auth::user()->role_id == 1)
+
+<button type="button" class=" btn btn-rounded btn-success text-white">
+    <a class="fa fa-download text-white" aria-hidden="true"
+    href="{{ route('complaint.pdf') }}/" role="button">Download PDF</a>
+
+</button>
+@endif
+
 
 <br>
 <br>

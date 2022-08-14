@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\CategoriesController;
-use App\Http\Controllers\Admin\ComplaintsController;
+use App\Http\Controllers\Admin\ComplaintsController as AdminComplaintsController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HistoryMemoController;
@@ -44,6 +44,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => ['admin']], function () {
     Route::GET('/pdf',[AdminBookingController::class,'exportPDF'])->name('booking.pdf');
+    Route::GET('/pdfcom',[AdminComplaintsController::class,'exportPDF'])->name('complaint.pdf');
     Route::GET('/dashboard',[DashboardController::class,'index']);
     Route::GET('/employee',[EmployeeController::class,'index']);
     Route::post('employee',[EmployeeController::class,'store'])->name('employee.store');
@@ -53,8 +54,8 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/meeting',[MeetingController::class,'store'])->name('meeting.store');
     Route::delete('/meeting/{id}',[MeetingController::class,'destroy'])->name('meeting.destroy');
     Route::put('meeting/edit/{id}',[MeetingController::class,'update'])->name('meeting.update');
-    Route::GET('/complaint',[ComplaintsController::class,'index']);
-    Route::put('complaint/edit/{id}',[ComplaintsController::class,'update'])->name('complaint.update');
+    Route::GET('/complaint',[AdminComplaintsController::class,'index']);
+    Route::put('complaint/edit/{id}',[AdminComplaintsController::class,'update'])->name('complaint.update');
     Route::GET('/memo',[MemoController::class,'index']);
     Route::post('/memo',[MemoController::class,'store'])->name('memo.store');
     Route::put('memo/history/add/{memo_id}',[HistoryMemoController::class,'store'])->name('history.store');
@@ -67,8 +68,8 @@ Route::group(['middleware' => ['admin']], function () {
     Route::put('/status-booking/edit/{status_id}',[StatusBookingController::class,'update'])->name('status.update');
     Route::delete('/status-booking/delete/{id}',[StatusBookingController::class,'destroy'])->name('status.destroy');
     Route::GET('/booking/bukti/download/{booking_id}',[AdminBookingController::class,'download'])->name('booking.download');
-    Route::GET('/complaint/tindak-lanjut/download/{complaint_id}',[ComplaintsController::class,'download_tindak_lanjut'])->name('bukti-complaint.download');
-    Route::GET('/complaint/bukti/download/{complaint_id}',[ComplaintsController::class,'downloadBukti'])->name('tindak-lanjut-complaint.download');
+    Route::GET('/complaint/tindak-lanjut/download/{complaint_id}',[AdminComplaintsController::class,'download_tindak_lanjut'])->name('bukti-complaint.download');
+    Route::GET('/complaint/bukti/download/{complaint_id}',[AdminComplaintsController::class,'downloadBukti'])->name('tindak-lanjut-complaint.download');
 });
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
