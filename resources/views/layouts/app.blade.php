@@ -114,7 +114,11 @@
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
 
 
-                                <a class="dropdown-item" href="{{url('/logout')}}"><i data-feather="power"
+
+                                    <a class="dropdown-item" href="{{url('/password')}}"><i data-feather="user"
+                                        class="svg-icon mr-2 ml-1"></i>
+                                    Change Password</a>
+                                    <a class="dropdown-item" href="{{url('/logout')}}"><i data-feather="power"
                                         class="svg-icon mr-2 ml-1"></i>
                                     Logout</a>
 

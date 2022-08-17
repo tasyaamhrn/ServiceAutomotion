@@ -39,7 +39,8 @@ Route::post('login/admin', [ApiAuthController::class, 'loginAdmin']);
 Route::post('login/customer', [CustomerController::class, 'login']);
 Route::post('register/employee', [EmployeeController::class, 'register']);
 Route::post('login/employee', [EmployeeController::class, 'login']);
-
+Route::get('customer/check/{id}', [CustomerController::class, 'check']);
+Route::post('customer/check/edit/{customer}', [CustomerController::class, 'riview']);
 Route::group(['middleware'=>'auth:api'],function(){
     Route::get('department', [DepartmentController::class, 'index']);
     Route::get('logout', [CustomerController::class, 'logout']);
