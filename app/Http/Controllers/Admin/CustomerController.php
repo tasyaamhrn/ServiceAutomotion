@@ -35,6 +35,13 @@ class CustomerController extends Controller
         return view('admin.customer', compact('customer', 'department', 'name'));
 
     }
+    public function download_ktp($customer_id)
+    {
+        $download = Customer::find($customer_id);
+        $pathFile = storage_path('app\public/'. $download->ktp);
+
+        return response()->download($pathFile);
+    }
     public function store(Request $request)
     {
         $data = $request->all();
@@ -129,5 +136,33 @@ class CustomerController extends Controller
 
 
     }
+    public function validasi(Request $request, $id){
+        $data = $request->all();
+        $rules = [
+            'status' => 'required',
+        ];
+        $this->validate($request, [
+        ]);
+        $customer = Customer::find($id);
+        $user=User::find($customer->user_id);
 
+        $validator = Validator::make($data, $rules);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+
+        $customer->status=$request->status;
+
+        $customer->save();
+
+        if( $customer->save()){
+            toast('Account Updated!','success');
+            return redirect('/customer');
+        }
+
+
+
+
+    }
 }

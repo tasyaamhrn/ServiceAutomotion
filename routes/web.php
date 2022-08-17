@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HistoryMemoController;
 use App\Http\Controllers\Admin\MeetingController;
 use App\Http\Controllers\Admin\MemoController;
+use App\Http\Controllers\Admin\PasswordController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\StatusBookingController;
 use App\Http\Controllers\api\BookingController;
@@ -43,6 +44,8 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 //employee
 
 Route::group(['middleware' => ['admin']], function () {
+    Route::GET('/password',[PasswordController::class,'edit'])->name('user.password.edit');
+    Route::patch('/password', [PasswordController::class,'update'])->name('user.password.update');
     Route::GET('/pdf',[AdminBookingController::class,'exportPDF'])->name('booking.pdf');
     Route::GET('/pdfcom',[AdminComplaintsController::class,'exportPDF'])->name('complaint.pdf');
     Route::GET('/dashboard',[DashboardController::class,'index']);
@@ -74,6 +77,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => ['admin', 'employee']], function () {
+    Route::GET('/customer/ktp/download/{customer_id}',[CustomerController::class,'download_ktp'])->name('ktp.download');
     Route::GET('/department',[DepartmentController::class,'index'])->name('department');
     Route::post('department',[DepartmentController::class,'store'])->name('department.store');
     Route::put('department/edit/{id}',[DepartmentController::class,'update'])->name('department.update');
@@ -88,6 +92,7 @@ Route::group(['middleware' => ['admin', 'employee']], function () {
     Route::post('customer',[CustomerController::class,'store'])->name('customer.store');
     Route::delete('customer/delete/{user_id}',[CustomerController::class,'delete'])->name('customer.destroy');
     Route::post('customer/edit/{id}',[CustomerController::class,'update'])->name('customer.update');
+    Route::post('customer/validasi/{id}',[CustomerController::class,'validasi'])->name('customer.validasi');
     Route::GET('/product',[ProductController::class,'index']);
     Route::post('product',[ProductController::class,'store'])->name('product.store');
     Route::delete('/product/{id}',[ProductController::class,'destroy'])->name('product.destroy');

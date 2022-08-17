@@ -16,7 +16,9 @@ class Customer extends Model
         'address',
         'avatar',
         'phone',
-        'user_id'
+        'user_id',
+        'ktp',
+        'status'
     ];
     protected $appends = [
         'avatar_url',

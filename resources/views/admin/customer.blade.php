@@ -115,6 +115,8 @@
                 <th>Address</th>
                 <th>Phone</th>
                 <th>Avatar</th>
+                <th>KTP</th>
+                <th>Status Account</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -131,12 +133,20 @@
                 @elseif($c->avatar)
                 <td><img src="{{ url('storage').'/'.$c->avatar }}" height="40px" width="40px" />
                 @endif
+                <td>
+                    <a class="fa fa-download" aria-hidden="true"
+                        href="{{ route('ktp.download', $c->id) }}/" role="button">Download</a>
+                </td>
+                <td>{{$c->status}}</td>
 
 
                 <td class="d-flex flex-row">
 
                   <button id="edit" type="button" class="btn btn-circle btn-lg btn-warning edit" data-toggle="modal" data-target="#editModal-{{$c->id}}">
                     <span class="btn-label"><i class="far fa-edit"></i></span>
+                  </button>
+                  <button id="edit" type="button" class="btn btn-circle btn-lg btn-primary edit" data-toggle="modal" data-target="#editModal1-{{$c->id}}">
+                    <span class="btn-label"><i class="far fa-user"></i></span>
                   </button>
                   <form method="post" action="{{url('customer/delete/'.$c->user_id)}}">
                     @method('DELETE')
@@ -149,6 +159,45 @@
                   </form>
                 </td>
               </tr>
+              <div class="modal fade" id="editModal1-{{$c->id }}">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Validasi Account</h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="widget">
+                        <div class="widget-content">
+                        <form role="form text-left" method="post" action="{{url('customer/validasi/'.$c->id)}}" enctype="multipart/form-data">
+                          {{csrf_field()}}
+
+                          <div class="form-group">
+                            {{-- <label for="message-text" class="col-form-label">Blok</label> --}}
+                            <div>
+                                <label class="mr-sm-2" for="inlineFormCustomSelect">Status</label>
+                                <select class="custom-select mr-sm-2" id="status" name="status">
+                                    <option selected>{{$c->status}}</option>
+                                    <option value="waiting">Waiting</option>
+                                    <option value="Validated">Validated</option>
+                                    <option value="ditolak">Rejected</option>
+                                </select>
+                            </div>
+                          </div>
+
+
+                    <div class="form-group text-center">
+                      <button id="btn" type="submit" class="btn btn-block">Submit</button>
+                    </div>
+                    </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="modal fade" id="editModal-{{$c->id }}">
                 <div class="modal-dialog modal-lg">
                   <div class="modal-content">

@@ -26,7 +26,16 @@ class CustomerController extends Controller
             'password' => ['required'],
             'address' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
+
         ];
+        $ktp = null;
+        if ($request->ktp instanceof UploadedFile) {
+            $ktp = $request->ktp->store('ktp', 'public');
+            $data['ktp'] = $ktp;
+        }else{
+            unset($data['ktp']);
+        }
+
         $avatar = null;
         if ($request->avatar instanceof UploadedFile) {
             $avatar = $request->avatar->store('avatar', 'public');
@@ -50,6 +59,8 @@ class CustomerController extends Controller
             'avatar' => $avatar,
             'phone' => $request->phone,
             'user_id' => $register->id,
+            'ktp' => $ktp,
+            'status' => 'waiting',
 
         ]);
         if ($register) {
@@ -73,6 +84,14 @@ class CustomerController extends Controller
                 ],],200);
         }
     }
+    public function download_ktp($customer_id)
+    {
+        $download = Customer::find($customer_id);
+        $pathFile = storage_path('app\public/'. $download->ktp);
+
+        return response()->download($pathFile);
+    }
+
     public function login(Request $request){
         try {
             $request->validate([
@@ -120,6 +139,57 @@ class CustomerController extends Controller
                 // 'message' => "Authentication Failed " . $error
             ]);
         }
+    }
+    public function riview(Request $request, $id ){
+        $data = $request->all();
+        $rules = [
+            'name'          => 'required',
+            'address'       => 'required',
+            'phone'         => 'required',
+        ];
+        $this->validate($request, [
+        ]);
+        $customer = Customer::find($id);
+        $customer->status = 'waiting';
+        if (request()->hasFile('avatar')) {
+            $avatar = request()->file('avatar')->store('avatar', 'public');
+            if (Storage::disk('public')->exists($customer->avatar)) {
+                Storage::disk('public')->delete([$customer->avatar]);
+            }
+            $avatar = request()->file('avatar')->store('avatar', 'public');
+            $data['avatar'] = $avatar;
+            $customer->update($data);
+        }else{
+            unset($data['avatar']);
+        }
+        if (request()->hasFile('ktp')) {
+            $ktp = request()->file('ktp')->store('ktp', 'public');
+            if (Storage::disk('public')->exists($customer->ktp)) {
+                Storage::disk('public')->delete([$customer->ktp]);
+            }
+            $ktp = request()->file('ktp')->store('ktp', 'public');
+            $data['ktp'] = $ktp;
+            $customer->update($data);
+        }else{
+            unset($data['ktp']);
+        }
+        $validator = Validator::make($data, $rules);
+        if ($validator->fails()) {
+          return response()->json($validator->errors(), 400);
+        }
+        $customer->update($data);
+        return response()->json([
+            'meta' => [
+                'code' => 200,
+                'status' => 'success',
+                'message' => 'Data Customer updated successfully'
+            ],
+            'data' => [
+
+                'customer' => $customer
+            ]
+        ]);
+
     }
     public function update(Request $request, $id )
     {
@@ -170,6 +240,32 @@ class CustomerController extends Controller
             ]
         ]);
 
+    }
+
+    public function check($id){
+        $customer = Customer::findOrFail($id);
+        $user = User::where('id', $customer->user_id)->first();
+        if ($customer) {
+            return response()->json([
+                'meta' => [
+                    'code' => 200,
+                    'status' => 'success',
+                    'message' => 'Detail Customer',
+                ],
+                'data' => [
+                    'user'        => $user,
+                    'customer' => $customer
+                ],
+            ],200);
+        }else {
+            return response()->json([
+                'meta' => [
+                    'code' => 404,
+                    'status' => 'Failed',
+                    'message' => 'Customer Not Found'
+                ],
+            ],200);
+        }
     }
     public function show($id)
     {
