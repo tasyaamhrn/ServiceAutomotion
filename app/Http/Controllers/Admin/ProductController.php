@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\blok;
 use App\Models\Product;
 use App\Models\Department;
 use App\Models\Employee;
@@ -20,6 +21,7 @@ class ProductController extends Controller
 {
     public function index()
     {
+        $blok = blok::get();
         $employee = Employee::get();
         $department = Department::all();
         $product = Product::all();
@@ -31,7 +33,7 @@ class ProductController extends Controller
             $employee_name = Employee::where('user_id', $logged_in)->select('name')->get();
             $name = $employee_name[0]->name;
         }
-        return view('admin.product', compact('product', 'department', 'name'));
+        return view('admin.product', compact('product','blok', 'department', 'name'));
 
     }
     // public function store(Request $request)
@@ -91,6 +93,17 @@ class ProductController extends Controller
             'luas_tanah' => ['required'],
             'price' => ['required'],
             'status' => ['required'],
+            'dinding' => ['required'],
+            'pondasi' => ['required'],
+            'lantai' => ['required'],
+            'rangka_atap' => ['required'],
+            'penutup_atap' => ['required'],
+            'daun_pintu' => ['required'],
+            'plafon' => ['required'],
+            'kusen' => ['required'],
+            'kamar_mandi' => ['required'],
+            'sumber_air' => ['required'],
+            'listrik' => ['required'],
             'tanah_lebih' => ['required'],
             'discount' => ['required'],
         ];
@@ -100,6 +113,27 @@ class ProductController extends Controller
             $data['image'] = $image;
         }else{
             unset($data['image']);
+        }
+        $imagedua = null;
+        if ($request->imagedua instanceof UploadedFile) {
+            $imagedua = $request->imagedua->store('image', 'public');
+            $data['imagedua'] = $imagedua;
+        }else{
+            unset($data['imagedua']);
+        }
+        $imagetiga = null;
+        if ($request->imagetiga instanceof UploadedFile) {
+            $imagetiga = $request->imagetiga->store('image', 'public');
+            $data['imagetiga'] = $imagetiga;
+        }else{
+            unset($data['imagetiga']);
+        }
+        $imageempat = null;
+        if ($request->imageempat instanceof UploadedFile) {
+            $imageempat = $request->imageempat->store('image', 'public');
+            $data['imageempat'] = $imageempat;
+        }else{
+            unset($data['imageempat']);
         }
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {
@@ -113,10 +147,23 @@ class ProductController extends Controller
             'luas_tanah' => $request->luas_tanah,
             'price' => $request->price,
             'status' => $request->status,
+            'dinding'=> $request->dinding,
+            'pondasi'=> $request->pondasi,
+            'lantai'=> $request->lantai,
+            'rangka_atap'=> $request->rangka_atap,
+            'penutup_atap'=> $request->penutup_atap,
+            'daun_pintu'=> $request->daun_pintu,
+            'plafon'=> $request->plafon,
+            'kusen'=> $request->kusen,
+            'kamar_mandi'=> $request->kamar_mandi,
+            'sumber_air'=> $request->sumber_air,
+            'listrik'=> $request->listrik,
             'tanah_lebih' => $request->tanah_lebih,
             'discount' => $request->discount,
             'image' => $image,
-
+            'imagedua' => $imagedua,
+            'imagetiga' => $imagetiga,
+            'imageempat' => $imageempat,
         ]);
         toast('Your Product has been submited!','success');
         return redirect('/product');
@@ -132,6 +179,17 @@ class ProductController extends Controller
             'luas_tanah' => ['required'],
             'price' => ['required'],
             'status' => ['required'],
+            'dinding' => ['required'],
+            'pondasi' => ['required'],
+            'lantai' => ['required'],
+            'rangka_atap' => ['required'],
+            'penutup_atap' => ['required'],
+            'daun_pintu' => ['required'],
+            'plafon' => ['required'],
+            'kusen' => ['required'],
+            'kamar_mandi' => ['required'],
+            'sumber_air' => ['required'],
+            'listrik' => ['required'],
             'tanah_lebih' => ['required'],
             'discount' => ['required'],
         ];
@@ -149,6 +207,39 @@ class ProductController extends Controller
             $product->update($data);
         }else{
             unset($data['image']);
+        }
+        if (request()->hasFile('imagedua')) {
+            $image = request()->file('imagedua')->store('image', 'public');
+            if (Storage::disk('public')->exists($product->imagedua)) {
+                Storage::disk('public')->delete([$product->imagedua]);
+            }
+            $imagedua = request()->file('imagedua')->store('image', 'public');
+            $data['imagedua'] = $imagedua;
+            $product->update($data);
+        }else{
+            unset($data['imagedua']);
+        }
+        if (request()->hasFile('imagetiga')) {
+            $imagetiga = request()->file('imagetiga')->store('image', 'public');
+            if (Storage::disk('public')->exists($product->imagetiga)) {
+                Storage::disk('public')->delete([$product->imagetiga]);
+            }
+            $imagetiga = request()->file('imagetiga')->store('image', 'public');
+            $data['imagetiga'] = $imagetiga;
+            $product->update($data);
+        }else{
+            unset($data['imagetiga']);
+        }
+        if (request()->hasFile('imageempat')) {
+            $imageempat = request()->file('imageempat')->store('image', 'public');
+            if (Storage::disk('public')->exists($product->imageempat)) {
+                Storage::disk('public')->delete([$product->imageempat]);
+            }
+            $image = request()->file('imageempat')->store('image', 'public');
+            $data['imageempat'] = $imageempat;
+            $product->update($data);
+        }else{
+            unset($data['imageempat']);
         }
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {

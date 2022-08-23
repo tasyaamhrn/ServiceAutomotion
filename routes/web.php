@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\ComplaintsController as AdminComplaintsController
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HistoryMemoController;
+
+use App\Http\Controllers\Admin\BlokController;
 use App\Http\Controllers\Admin\MeetingController;
 use App\Http\Controllers\Admin\MemoController;
 use App\Http\Controllers\Admin\PasswordController;
@@ -79,6 +81,10 @@ Route::group(['middleware' => ['admin']], function () {
 Route::group(['middleware' => ['admin', 'employee']], function () {
     Route::GET('/customer/ktp/download/{customer_id}',[CustomerController::class,'download_ktp'])->name('ktp.download');
     Route::GET('/department',[DepartmentController::class,'index'])->name('department');
+    Route::GET('/blok',[BlokController::class,'index'])->name('blok');
+    Route::post('blok',[BlokController::class,'store'])->name('blok.store');
+    Route::post('blok/edit/{id}',[BlokController::class,'update'])->name('blok.update');
+    Route::post('/blok/{id}',[BlokController::class,'destroy'])->name('blok.destroy');
     Route::post('department',[DepartmentController::class,'store'])->name('department.store');
     Route::put('department/edit/{id}',[DepartmentController::class,'update'])->name('department.update');
     Route::delete('/department/{id}',[DepartmentController::class,'destroy'])->name('department.destroy');

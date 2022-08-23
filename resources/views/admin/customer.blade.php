@@ -85,6 +85,12 @@
               <label><b>*Jika tidak ada kosongkan saja</b></label>
             </div>
           </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Upload KTP</label>
+            <div>
+              <input type="file" class="form-control" name="ktp">
+            </div>
+          </div>
 
     <div class="form-group text-center">
       <button id="btn" type="submit" class="btn btn-block">Submit</button>
@@ -137,8 +143,14 @@
                     <a class="fa fa-download" aria-hidden="true"
                         href="{{ route('ktp.download', $c->id) }}/" role="button">Download</a>
                 </td>
-                <td>{{$c->status}}</td>
-
+                {{-- <td>{{$c->status}}</td> --}}
+                @if ($c->status=='Waiting')
+              <td><div style=" width:80%; border-radius: 20px; background:#FFD700; color:white; text-align:center;">{{$c->status}}</div></td>
+                @elseif($c->status=='Validated')
+                 <td><div style="width:80%; border-radius: 20px; background:#32CD32; color:white; text-align:center;">{{$c->status}}</div></td>
+                @elseif($c->status=='Rejected')
+                <td><div style="width:80%; border-radius: 20px; background:RED; color:white; text-align:center;"> {{$c->status}}</div></td>
+                @endif
 
                 <td class="d-flex flex-row">
 
@@ -180,9 +192,9 @@
                                 <label class="mr-sm-2" for="inlineFormCustomSelect">Status</label>
                                 <select class="custom-select mr-sm-2" id="status" name="status">
                                     <option selected>{{$c->status}}</option>
-                                    <option value="waiting">Waiting</option>
+                                    <option value="Waiting">Waiting</option>
                                     <option value="Validated">Validated</option>
-                                    <option value="ditolak">Rejected</option>
+                                    <option value="Rejected">Rejected</option>
                                 </select>
                             </div>
                           </div>
@@ -250,6 +262,12 @@
                             <div>
                               <input type="file" class="form-control" name="avatar">
                               <label><b>*Jika tidak ada kosongkan saja</b></label>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="message-text" class="col-form-label">Upload KTP</label>
+                            <div>
+                              <input type="file" class="form-control" name="ktp">
                             </div>
                           </div>
 

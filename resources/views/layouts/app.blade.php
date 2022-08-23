@@ -155,6 +155,11 @@
                                 class="hide-menu">Complaint
                             </span></a>
                        </li>
+                       <li class="sidebar-item"> <a class="sidebar-link" href="{{url('/blok')}}"
+                        aria-expanded="false"><i data-feather="inbox" class="feather-icon"></i><span
+                            class="hide-menu">Blok
+                        </span></a>
+                   </li>
                         <li class="sidebar-item"> <a class="sidebar-link" href="{{ url('/employee') }}"
                                 aria-expanded="false"><i data-feather="users" class="feather-icon"></i><span
                                     class="hide-menu">Employee

@@ -42,18 +42,23 @@
                 <form role="form text-left" method="post" action="{{ route('product.store') }}" enctype="multipart/form-data">
                     {{csrf_field()}}
                     <div class="form-group">
-                        <label class="mr-sm-2" for="inlineFormCustomSelect">Blok</label>
-                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="blok">
-                            <option selected>Choose...</option>
-                            <option value="A">A</option>
-                            <option value="C">C</option>
-                        </select>
-                    </div>
+                        <label for="message-text" class="col-form-label">Blok</label>
+                        <div>
+                          <select name='blok' class='form-control'>
+                            @foreach($blok as $bk)
+                            <option hidden value="">
+                              <center>-- Pilih --</center>
+                            </option>
+                            <option value="{{$bk->id}}">{{$bk->name}}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                      </div>
 
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">No.Kavling</label>
                         <div>
-                            <input type="number" class="form-control" name="no_kavling" placeholder="No.Kavling">
+                            <input type="text" class="form-control" name="no_kavling" placeholder="No.Kavling">
                         </div>
                     </div>
                     <div class="form-group">
@@ -83,6 +88,72 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="message-text" class="col-form-label">Dinding</label>
+                        <div>
+                            <input type="text" class="form-control" name="dinding" placeholder="Dinding">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Pondasi</label>
+                        <div>
+                            <input type="text" class="form-control" name="pondasi" placeholder="Pondasi">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Lantai</label>
+                        <div>
+                            <input type="text" class="form-control" name="lantai" placeholder="Lantai">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Rangka Atap</label>
+                        <div>
+                            <input type="text" class="form-control" name="rangka_atap" placeholder="Rangka Atap">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Penutup Atap</label>
+                        <div>
+                            <input type="text" class="form-control" name="penutup_atap" placeholder="Penutup Atap">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Daun Pintu</label>
+                        <div>
+                            <input type="text" class="form-control" name="daun_pintu" placeholder="Daun Pintu">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Plafon</label>
+                        <div>
+                            <input type="text" class="form-control" name="plafon" placeholder="Plafon">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Kusen</label>
+                        <div>
+                            <input type="text" class="form-control" name="kusen" placeholder="Kusen">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Kamar Mandi</label>
+                        <div>
+                            <input type="text" class="form-control" name="kamar_mandi" placeholder="Kamar Mandi">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Sumber Air</label>
+                        <div>
+                            <input type="text" class="form-control" name="sumber_air" placeholder="Sumber Air">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Listrik</label>
+                        <div>
+                            <input type="text" class="form-control" name="listrik" placeholder="Listrik">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="message-text" class="col-form-label">Tanah Lebih</label>
                         <div>
                             <input type="number" class="form-control" name="tanah_lebih" placeholder="Tanah Lebih">
@@ -98,7 +169,28 @@
                         <label for="message-text" class="col-form-label">Image</label>
                         <div>
                             <input type="file" class="form-control" name="image">
-                            <label><b>*Jika tidak ada kosongkan saja</b></label>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Image 2</label>
+                        <div>
+                            <input type="file" class="form-control" name="imagedua">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Image 3</label>
+                        <div>
+                            <input type="file" class="form-control" name="imagetiga">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Image 4</label>
+                        <div>
+                            <input type="file" class="form-control" name="imageempat">
+
                         </div>
                     </div>
                     <div class="form-group text-center">
@@ -129,25 +221,59 @@
                                 <th>Luas(m<sup>2</sup>)</th>
                                 <th>Price</th>
                                 <th>Status</th>
+                                <th>Dinding</th>
+                                <th>Pondasi</th>
+                                <th>Lantai</th>
+                                <th>Rangka Atap</th>
+                                <th>Penutup Atap</th>
+                                <th>Daun Pintu</th>
+                                <th>Plafon</th>
+                                <th>Kusen</th>
+                                <th>Kamar Mandi</th>
+                                <th>Sumber Air</th>
+                                <th>Listrik</th>
                                 <th>Tanah Lebih</th>
                                 <th>Discount(%)</th>
                                 <th>Image</th>
+                                <th>Image 2</th>
+                                <th>Image 3</th>
+                                <th>Image 4</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($product as $p)
                             <tr>
-                                <td>{{$p->blok}}</td>
+                                <td>
+                                    @foreach ($blok as $bk )
+                                        @if ($bk->id==$p->blok)
+                                        {{$bk->name}}
+
+                                        @endif
+                                    @endforeach
+                                </td>
                                 <td>{{$p->no_kavling}}</td>
                                 <td>{{$p->type}}</td>
                                 <td>{{$p->luas_tanah}}</td>
                                 <td>@currency($p->price)</td>
                                 <td>{{$p->status}}</td>
+                                <td>{{$p->dinding}}</td>
+                                <td>{{$p->pondasi}}</td>
+                                <td>{{$p->lantai}}</td>
+                                <td>{{$p->rangka_atap}}</td>
+                                <td>{{$p->penutup_atap}}</td>
+                                <td>{{$p->daun_pintu}}</td>
+                                <td>{{$p->plafon}}</td>
+                                <td>{{$p->kusen}}</td>
+                                <td>{{$p->kamar_mandi}}</td>
+                                <td>{{$p->sumber_air}}</td>
+                                <td>{{$p->listrik}}</td>
                                 <td>{{$p->tanah_lebih}}</td>
                                 <td>{{$p->discount}}</td>
                                 <td><img src="{{ url('storage').'/'.$p->image }}" height="40px" width="40px" />
-
+                                    <td><img src="{{ url('storage').'/'.$p->imagedua }}" height="40px" width="40px" />
+                                        <td><img src="{{ url('storage').'/'.$p->imagetiga }}" height="40px" width="40px" />
+                                            <td><img src="{{ url('storage').'/'.$p->imageempat }}" height="40px" width="40px" />
                                 <td class="d-flex flex-row">
                                     <a id="edit" class="btn btn-circle btn-lg btn-warning edit" type="button" data-toggle="modal" data-target="#editModal{{$p->id }}">
                                         <span class="btn-label"><i class="far fa-edit"></i></span>
@@ -174,15 +300,16 @@
                                                 {{csrf_field()}}
                                                 {{method_field('PUT')}}
                                                 <div class="form-group">
-                                                    {{-- <label for="message-text" class="col-form-label">Blok</label> --}}
+                                                    <label for="message-text" class="col-form-label">Blok</label>
                                                     <div>
-                                                        <label class="mr-sm-2" for="inlineFormCustomSelect">Blok</label>
-                                                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="blok">
-                                                            <option selected>{{$p->blok}}</option>
-                                                            <option value="A">A</option>
-                                                            <option value="B">B</option>
-                                                            <option value="C">C</option>
-                                                        </select>
+                                                      <select name='blok' class='form-control'>
+                                                        @foreach($blok as $bk)
+                                                        <option selected>{{$p->blok}}</option>
+                                                          <center>-- Pilih --</center>
+                                                        </option>
+                                                        <option value="{{$bk->id}}">{{$bk->name}}</option>
+                                                        @endforeach
+                                                      </select>
                                                     </div>
                                                   </div>
                                                 <div class="form-group">
@@ -221,6 +348,72 @@
                                                     </div>
                                                   </div>
                                                   <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">Dinding</label>
+                                                    <div>
+                                                        <input type="text" class="form-control" name="dinding" value="{{$p->dinding}}" placeholder="Dinding">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">Pondasi</label>
+                                                    <div>
+                                                        <input type="text" class="form-control" name="pondasi" value="{{$p->pondasi}}" placeholder="Pondasi">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">Lantai</label>
+                                                    <div>
+                                                        <input type="text" class="form-control" name="lantai" value="{{$p->lantai}}" placeholder="Lantai">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">Rangka Atap</label>
+                                                    <div>
+                                                        <input type="text" class="form-control" name="rangka_atap" value="{{$p->rangka_atap}}" placeholder="Rangka Atap">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">Penutup Atap</label>
+                                                    <div>
+                                                        <input type="text" class="form-control" name="penutup_atap" value="{{$p->penutup_atap}}" placeholder="Penutup Atap">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">Daun Pintu</label>
+                                                    <div>
+                                                        <input type="text" class="form-control" name="daun_pintu" value="{{$p->daun_pintu}}" placeholder="Daun Pintu">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">Plafon</label>
+                                                    <div>
+                                                        <input type="text" class="form-control" name="plafon" value="{{$p->plafon}}" placeholder="Plafon">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">Kusen</label>
+                                                    <div>
+                                                        <input type="text" class="form-control" name="kusen" value="{{$p->kusen}}" placeholder="Kusen">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">Kamar Mandi</label>
+                                                    <div>
+                                                        <input type="text" class="form-control" name="kamar_mandi" value="{{$p->kamar_mandi}}" placeholder="Kamar Mandi">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">Sumber Air</label>
+                                                    <div>
+                                                        <input type="text" class="form-control" name="sumber_air" value="{{$p->sumber_air}}" placeholder="Sumber Air">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">Listrik</label>
+                                                    <div>
+                                                        <input type="text" class="form-control" name="listrik" value="{{$p->listrik}}" placeholder="Listrik">
+                                                    </div>
+                                                </div>
+                                                  <div class="form-group">
                                                     <label for="message-text" class="col-form-label">Tanah Lebih</label>
                                                     <div>
                                                         <input type="text" class="form-control" name="tanah_lebih" placeholder="Tanah Lebih" value="{{$p->tanah_lebih}}">
@@ -239,6 +432,27 @@
                                                       <label><b>*Jika tidak ada kosongkan saja</b></label>
                                                     </div>
                                                   </div>
+                                                  <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">Image 2</label>
+                                                    <div>
+                                                        <input type="file" class="form-control" name="imagedua">
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">Image 3</label>
+                                                    <div>
+                                                        <input type="file" class="form-control" name="imagetiga">
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">Image 4</label>
+                                                    <div>
+                                                        <input type="file" class="form-control" name="imageempat">
+
+                                                    </div>
+                                                </div>
                                                 <div class="form-group text-center">
                                                     <button id="btn" type="submit" class="btn btn-block">Submit</button>
                                                 </div>

@@ -60,7 +60,7 @@ class CustomerController extends Controller
             'phone' => $request->phone,
             'user_id' => $register->id,
             'ktp' => $ktp,
-            'status' => 'waiting',
+            'status' => 'Waiting',
 
         ]);
         if ($register) {

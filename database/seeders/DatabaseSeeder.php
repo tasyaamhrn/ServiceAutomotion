@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(users_seeder::class);
         $this->call(status_seeder::class);
         $this->call(department_seeder::class);
+        $this->call(perumahan_seeder::class);
     }
 }

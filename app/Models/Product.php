@@ -18,7 +18,21 @@ class Product extends Model
         'status',
         'tanah_lebih',
         'discount',
-        'image'
+        'image',
+        'imagedua',
+        'imagetiga',
+        'imageempat',
+        'dinding',
+        'pondasi',
+        'lantai',
+        'rangka_atap',
+        'penutup_atap',
+        'daun_pintu',
+        'plafon',
+        'kusen',
+        'kamar_mandi',
+        'sumber_air',
+        'listrik'
     ];
     public $incrementing = false;
 
@@ -42,6 +56,8 @@ class Product extends Model
     {
         return $this->hasOne(Booking::class,'product_id','id');
     }
-
+    public function blok(){
+        return $this->belongsTo(blok::class,'blok');
+    }
 
 }

@@ -61,6 +61,13 @@ class CustomerController extends Controller
         }else{
             unset($data['avatar']);
         }
+        $ktp = null;
+        if ($request->ktp instanceof UploadedFile) {
+            $ktp = $request->ktp->store('ktp', 'public');
+            $data['ktp'] = $ktp;
+        }else{
+            unset($data['ktp']);
+        }
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
@@ -79,6 +86,8 @@ class CustomerController extends Controller
                 'dept_id' => $request->dept_id,
                 'user_id' => $register->id,
                 'avatar' => $avatar,
+                'ktp' => $ktp,
+                'status' => 'Waiting',
 
             ]);
             toast('Your Post as been submited!','success');
@@ -113,6 +122,17 @@ class CustomerController extends Controller
             $customer->update($data);
         }else{
             unset($data['avatar']);
+        }
+        if (request()->hasFile('ktp')) {
+            $ktp = request()->file('ktp')->store('ktp', 'public');
+            if (Storage::disk('public')->exists($customer->ktp)) {
+                Storage::disk('public')->delete([$customer->ktp]);
+            }
+            $ktp = request()->file('ktp')->store('ktp', 'public');
+            $data['ktp'] = $ktp;
+            $customer->update($data);
+        }else{
+            unset($data['ktp']);
         }
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {
