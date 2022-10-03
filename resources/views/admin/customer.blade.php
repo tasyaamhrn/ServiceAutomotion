@@ -2,7 +2,20 @@
 @section('content')
 <!-- Page -->
 @section('page')
+<style>
+    #zoom {
+      padding: 50px;
+      /* background-color: green; */
+      transition: transform .2s; /* Animation */
+      /* width: 70%;
+      height: 70%; */
+      margin: 0 auto;
+    }
 
+    #zoom:hover {
+      transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    }
+    </style>
 <div class="col-12 align-self-center">
   <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Customer</h4>
   <div class="d-flex align-items-center">
@@ -137,12 +150,9 @@
                 @if ($c->avatar==null)
                 <td><i>None</i></td>
                 @elseif($c->avatar)
-                <td><img src="{{ url('storage').'/'.$c->avatar }}" height="40px" width="40px" />
+                <td><img  src="{{ url('storage').'/'.$c->avatar }}" height="40px" width="40px" /></td>
                 @endif
-                <td>
-                    <a class="fa fa-download" aria-hidden="true"
-                        href="{{ route('ktp.download', $c->id) }}/" role="button">Download</a>
-                </td>
+                <td><img  src="{{ url('storage').'/'.$c->ktp }}" height="40px" width="40px" /></td>
                 {{-- <td>{{$c->status}}</td> --}}
                 @if ($c->status=='Waiting')
               <td><div style=" width:80%; border-radius: 20px; background:#FFD700; color:white; text-align:center;">{{$c->status}}</div></td>
@@ -153,13 +163,13 @@
                 @endif
 
                 <td class="d-flex flex-row">
-
-                  <button id="edit" type="button" class="btn btn-circle btn-lg btn-warning edit" data-toggle="modal" data-target="#editModal-{{$c->id}}">
-                    <span class="btn-label"><i class="far fa-edit"></i></span>
-                  </button>
                   <button id="edit" type="button" class="btn btn-circle btn-lg btn-primary edit" data-toggle="modal" data-target="#editModal1-{{$c->id}}">
                     <span class="btn-label"><i class="far fa-user"></i></span>
                   </button>
+                  <button id="edit" type="button" class="btn btn-circle btn-lg btn-warning edit" data-toggle="modal" data-target="#editModal-{{$c->id}}">
+                    <span class="btn-label"><i class="far fa-edit"></i></span>
+                  </button>
+
                   <form method="post" action="{{url('customer/delete/'.$c->user_id)}}">
                     @method('DELETE')
                     @csrf
@@ -187,7 +197,47 @@
                           {{csrf_field()}}
 
                           <div class="form-group">
-                            {{-- <label for="message-text" class="col-form-label">Blok</label> --}}
+                            <label for="recipient-name"  class="col-form-label">KTP</label>
+                            <div>
+                                <img id="zoom" src="{{ url('storage').'/'.$c->ktp }}" style="display:block; margin-left:auto; margin-right:auto;" height="20%" width="50%"/>
+
+                            </div>
+
+                          </div>
+
+                          <div class="form-group">
+                            <label for="recipient-name" style="font-weight:bold; class="col-form-label">NIK</label>
+                            <div>
+                              <label>{{$c->nik}}</label>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="recipient-name" style="font-weight:bold;" class="col-form-label">Name</label>
+                            <div>
+                              <label>{{$c->name}}</label>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="recipient-name" style="font-weight:bold;" class="col-form-label">Address</label>
+                            <div>
+                              <label>{{$c->address}}</label>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="recipient-name" style="font-weight:bold;" class="col-form-label">Phone</label>
+                            <div>
+                              <label>{{$c->phone}}</label>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="recipient-name"  class="col-form-label">Image</label>
+                            <div>
+                                <img id="zoom" src="{{ url('storage').'/'.$c->avatar }}" style="display:block; margin-left:auto; margin-right:auto;" height="40%" width="40%"/>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+
                             <div>
                                 <label class="mr-sm-2" for="inlineFormCustomSelect">Status</label>
                                 <select class="custom-select mr-sm-2" id="status" name="status">
